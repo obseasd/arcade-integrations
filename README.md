@@ -12,8 +12,10 @@ reproduces the runtime bytecode deployed on Arc mainnet byte for byte for
 `ArcadeHook`, `ArcadeHookLib`, `ArcadeRwaLib`, `ArcadeV4Math`,
 `ArcadeV4SwapRouter`, `LockedVault`, `ArcadeDividendDistributor`,
 `ArcadeToken`, `ArcadeLpLocker` and `ArcadeBuybackVault` (libraries linked to
-the addresses below, immutables filled in). The hook is not verified on a
-block explorer yet; this repository is the way to check it.
+the addresses below, immutables filled in). Since 2026-09-18 the hook, its three
+libraries, the swap router, the fee router and the buyback vault are also
+verified on arc.etherscan.io (exact match); this repository builds the same
+bytecode, so the two can be checked against each other.
 
 ## Chain
 
