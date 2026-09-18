@@ -1,0 +1,74 @@
+# Arcade launchpad on Arc (chain id 5042): build settings for the public mirror.
+#
+# [profile.default] is the `v4` profile of the Arcade monorepo, unchanged: the
+# exact compiler settings the mainnet hook stack (ArcadeHook, its three linked
+# libraries, ArcadeV4SwapRouter, LockedVault, ArcadeDividendDistributor) was
+# compiled and deployed with. Keep them identical; the hook sits at 24,153 of
+# the 24,576 bytes EIP-170 allows and any change in optimizer settings moves it.
+[profile.default]
+src = "v4src"
+test = "v4test"
+out = "out"
+libs = ["lib"]
+# v4-core and v4-periphery ship their own test trees and permit2 pulls
+# dependencies (forge-gas-snapshot, certora) that are never needed here.
+skip = [
+    "lib/v4-core/test/**",
+    "lib/v4-periphery/test/**",
+    "lib/v4-periphery/lib/permit2/test/**",
+    "lib/v4-periphery/lib/permit2/script/**",
+    "lib/v4-periphery/lib/permit2/lib/openzeppelin-contracts/certora/**",
+    "lib/v4-periphery/lib/permit2/lib/openzeppelin-contracts/test/**",
+]
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+solc_version = "0.8.26"
+evm_version = "cancun"
+# Inherited from the monorepo default profile: no metadata trailer, so the
+# runtime bytecode is exactly what is on chain (24,153 bytes for the hook).
+bytecode_hash = "none"
+cbor_metadata = false
+remappings = [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "forge-std/=lib/forge-std/src/",
+    "@uniswap/v4-core/=lib/v4-core/",
+    "v4-core/=lib/v4-core/src/",
+    "@uniswap/v4-periphery/=lib/v4-periphery/",
+    "v4-periphery/=lib/v4-periphery/src/",
+    "permit2/=lib/v4-periphery/lib/permit2/",
+    "solmate/=lib/v4-core/lib/solmate/",
+]
+
+# The standalone contracts under src/ (platform token, LP locker, buyback
+# vault, CCTP buy receiver, launch tokens, Twitter escrow) were compiled by the
+# monorepo's default profile: via_ir, optimizer_runs 1, metadata stripped.
+#   forge build --profile standalone
+[profile.standalone]
+src = "src"
+test = "src/_none"
+out = "out-standalone"
+libs = ["lib"]
+skip = [
+    "lib/v4-core/**",
+    "lib/v4-periphery/**",
+]
+solc_version = "0.8.35"
+optimizer = true
+optimizer_runs = 1
+via_ir = true
+bytecode_hash = "none"
+cbor_metadata = false
+remappings = [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "forge-std/=lib/forge-std/src/",
+    "v4-core/=lib/v4-core/src/",
+]
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = false
+int_types = "long"
+quote_style = "double"
+number_underscore = "thousands"

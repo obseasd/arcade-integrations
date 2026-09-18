@@ -1,0 +1,11 @@
+# Foundry build output
+out/
+out-standalone/
+cache/
+
+# Never commit environment files or keys
+.env*
+
+# Editors
+.vscode/
+.idea/

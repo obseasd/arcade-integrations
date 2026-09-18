@@ -1,0 +1,51 @@
+{
+  "chain": {
+    "name": "Arc mainnet",
+    "chainId": 5042,
+    "gasToken": "USDC",
+    "usdc": "0x3600000000000000000000000000000000000000",
+    "usdcDecimals": 6
+  },
+  "launchpad": {
+    "poolManager": "0x8366a39cc670b4001a1121b8f6a443a643e40951",
+    "arcadeHook": "0x695cfF9C7F11fa87ca05c7b0A0fa64C3554B3eCe",
+    "arcadeHookDeployBlock": 20030281,
+    "arcadeHookPermissions": "0x3ECE",
+    "arcadeHookOwner": "0x55589b2eba875a6462f6Cf587058C4d4e317315b",
+    "libraries": {
+      "ArcadeHookLib": "0x4F0ad6705bBC3D907D3580eDde1920c1A83C08aD",
+      "ArcadeRwaLib": "0xCF541Aa04283bCfF85eEA0a32C018b8Ae6Dc050A",
+      "ArcadeV4Math": "0x0931aA1082b1ee184f3Fa70B8720500D80C226A2"
+    },
+    "arcadeV4SwapRouter": "0x48A43e71c2AaBBa69193891851B96FE5A51a82C1",
+    "v4Quoter": "0x338F2A7424af45BDD9AcF8E7F56423fbECEecfe6",
+    "v4StateView": "0x5d2C332d5De8d35EC9853f92Ab5d8a5e67683D49",
+    "lockedVault": "0x6aB6686d53a8f6CA2Fa802D3b559Fe335F2c5b40",
+    "dividendDistributor": "0x3423f4C418cd811fb77E4C4940E8C1fCc87B062C",
+    "poolKey": {
+      "tickSpacing": 200,
+      "hooks": "0x695cfF9C7F11fa87ca05c7b0A0fa64C3554B3eCe",
+      "currencies": "the launch token and hook.quoteAssetOf(token) (zero address means USDC), sorted by address",
+      "fee": "hook.poolFeeOf(token): 0 for PUMP, 10000 / 20000 / 30000 for CLANKER"
+    },
+    "modes": { "0": "PUMP", "1": "CLANKER", "2": "CLANKER_V3 (never on mainnet)", "3": "RWA (not open)" }
+  },
+  "swap": {
+    "swapFeeRouter": "0x8090435Df4EeC29178bE5373677aCA8dE54f58bD"
+  },
+  "platformToken": {
+    "arcade": "0xcaaD9713114A3c26131594E7e3a908f41e7d4549",
+    "uniswapV3Pool": "0x11b73810472525A13c90bee4f1a6edCB039Aee78",
+    "uniswapV3PoolFee": 10000,
+    "lpLocker": "0xA39432d3e069Cd8Bc7A5d78628464edFC40A5E69",
+    "buybackVault": "0x0B2751fca20728a165d5240178C11D42D4ff552A"
+  },
+  "governance": {
+    "safe": "0x55589b2eba875a6462f6Cf587058C4d4e317315b",
+    "safeThreshold": "2 of 3"
+  },
+  "data": {
+    "subgraph": "https://api.goldsky.com/api/public/project_cmrntot4nn29m01stbb661x1d/subgraphs/arcade-charts-mainnet/prod/gn",
+    "manifest": "https://www.arcade.trading/deployments.json"
+  }
+}
