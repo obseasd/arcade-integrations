@@ -1,5 +1,6 @@
 # Foundry build output
 out/
+out-v2/
 out-standalone/
 cache/
 

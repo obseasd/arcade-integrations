@@ -7,6 +7,9 @@
     "usdcDecimals": 6
   },
   "launchpad": {
+    "note": "There are two hook generations. The flat arcadeHook* keys below are GENERATION 1 and keep the values they have always had, so nothing that already parses this file breaks. Generation 2 is the hook of every launch created since block 21568825; read launchpad.generations (newest first) and resolve a token with registeredLaunches(token) on each hook. Neither hook can be migrated to the other.",
+    "currentGeneration": 2,
+    "currentHook": "0x7706d261f0C370e8f0E273164A603E885C89beC2",
     "poolManager": "0x8366a39cc670b4001a1121b8f6a443a643e40951",
     "arcadeHook": "0x695cfF9C7F11fa87ca05c7b0A0fa64C3554B3eCe",
     "arcadeHookDeployBlock": 20030281,
@@ -22,13 +25,149 @@
     "v4StateView": "0x5d2C332d5De8d35EC9853f92Ab5d8a5e67683D49",
     "lockedVault": "0x6aB6686d53a8f6CA2Fa802D3b559Fe335F2c5b40",
     "dividendDistributor": "0x3423f4C418cd811fb77E4C4940E8C1fCc87B062C",
+    "indexFromBlock": 20030281,
+    "generations": [
+      {
+        "generation": 2,
+        "current": true,
+        "label": "ArcadeHook v2",
+        "hook": "0x7706d261f0C370e8f0E273164A603E885C89beC2",
+        "deployBlock": 21568825,
+        "liveSince": "2026-09-19",
+        "permissions": "0x3EC2",
+        "permissionNames": [
+          "BEFORE_INITIALIZE",
+          "AFTER_INITIALIZE",
+          "BEFORE_ADD_LIQUIDITY",
+          "AFTER_ADD_LIQUIDITY",
+          "BEFORE_REMOVE_LIQUIDITY",
+          "BEFORE_SWAP",
+          "AFTER_SWAP",
+          "AFTER_ADD_LIQUIDITY_RETURNS_DELTA"
+        ],
+        "swapReturnsDelta": false,
+        "routableByAnyV4Router": true,
+        "runtimeBytes": 21920,
+        "owner": "0x55589b2eba875a6462f6Cf587058C4d4e317315b",
+        "treasury": "0x0B2751fca20728a165d5240178C11D42D4ff552A",
+        "twitterEscrow": "0xC1D469642A7C1Df9F153A113508Ce512827cb193",
+        "libraries": {
+          "ArcadeHookLib": "0x4482FCD1531F37c05Ecb5Fc586E5Cbc52E18c248",
+          "ArcadeRwaLib": "0x19fD547CeDc3524D320E04E4d6AD2c7466DC5916",
+          "ArcadeV4Math": "0x0931aA1082b1ee184f3Fa70B8720500D80C226A2"
+        },
+        "dividendDistributor": "0xF1874BEf547f4DDD546D2C5419Ac070783AbEe01",
+        "rwaRegistry": "0xa012614F015EEEC7fccBA6575FC4753ee7Ef70E6",
+        "pumpFee": {
+          "rule": "static native LP fee, baked into the PoolKey at createLaunch",
+          "poolFee": 10000,
+          "poolFeeNote": "poolFeeOf(token) is 10000 (1%) for a PUMP from day one, before graduation as well as after. A PoolKey built with fee 0 hashes to the wrong PoolId.",
+          "hookTakesSwapDelta": false,
+          "harvest": "collectFees(token), permissionless, split 80/20 creator/treasury",
+          "feeObs": "does not exist on this generation; calling feeObs reverts",
+          "swapTreasuryFeeEvent": false
+        },
+        "newSurface": [
+          "isHarvestable(address token)",
+          "claimPendingTokenFor(address token, address recipient)",
+          "rwaRegistry()",
+          "setRwaRegistry(address)",
+          "error DistributorHookMismatch()",
+          "event RwaRegistrySet(address indexed registry)"
+        ],
+        "removedSurface": [
+          "feeObs(bytes32)",
+          "setRwaQuoteAllowed(address,bool)",
+          "event SwapTreasuryFee(bytes32,uint256)",
+          "event RwaQuoteAllowedSet(address,bool)",
+          "createRwaLaunch lost its startMcap argument: the registry fixes it per asset"
+        ],
+        "sources": "v4src-v2/",
+        "buildProfile": "v2"
+      },
+      {
+        "generation": 1,
+        "current": false,
+        "label": "ArcadeHook v1",
+        "hook": "0x695cfF9C7F11fa87ca05c7b0A0fa64C3554B3eCe",
+        "deployBlock": 20030281,
+        "liveSince": "2026-08-24",
+        "permissions": "0x3ECE",
+        "permissionNames": [
+          "BEFORE_INITIALIZE",
+          "AFTER_INITIALIZE",
+          "BEFORE_ADD_LIQUIDITY",
+          "AFTER_ADD_LIQUIDITY",
+          "BEFORE_REMOVE_LIQUIDITY",
+          "BEFORE_SWAP",
+          "AFTER_SWAP",
+          "BEFORE_SWAP_RETURNS_DELTA",
+          "AFTER_SWAP_RETURNS_DELTA",
+          "AFTER_ADD_LIQUIDITY_RETURNS_DELTA"
+        ],
+        "swapReturnsDelta": true,
+        "routableByAnyV4Router": false,
+        "runtimeBytes": 24153,
+        "owner": "0x55589b2eba875a6462f6Cf587058C4d4e317315b",
+        "treasury": "0x0B2751fca20728a165d5240178C11D42D4ff552A",
+        "twitterEscrow": "0xC1D469642A7C1Df9F153A113508Ce512827cb193",
+        "libraries": {
+          "ArcadeHookLib": "0x4F0ad6705bBC3D907D3580eDde1920c1A83C08aD",
+          "ArcadeRwaLib": "0xCF541Aa04283bCfF85eEA0a32C018b8Ae6Dc050A",
+          "ArcadeV4Math": "0x0931aA1082b1ee184f3Fa70B8720500D80C226A2"
+        },
+        "dividendDistributor": "0x3423f4C418cd811fb77E4C4940E8C1fCc87B062C",
+        "rwaRegistry": null,
+        "pumpFee": {
+          "rule": "the hook takes the fee in USDC as a swap delta, in beforeSwap or afterSwap",
+          "poolFee": 0,
+          "poolFeeNote": "poolFeeOf(token) is 0 for a PUMP on this generation.",
+          "hookTakesSwapDelta": true,
+          "startBps": 100,
+          "floorBps": 30,
+          "decay": "linear in log market cap, reaching the floor 23026 ticks (10x) above the graduation tick, driven by a 1h EMA",
+          "harvest": "nothing to harvest, the fee is taken per swap",
+          "feeObs": "feeObs(poolId) returns the price EMA",
+          "swapTreasuryFeeEvent": true
+        },
+        "sources": "v4src/",
+        "buildProfile": "default",
+        "status": "not paused, not deprecated; keeps serving the tokens launched on it. No new launches since block 21568825."
+      }
+    ],
+    "rwaRegistry": {
+      "address": "0xa012614F015EEEC7fccBA6575FC4753ee7Ef70E6",
+      "generation": 2,
+      "owner": "0x55589b2eba875a6462f6Cf587058C4d4e317315b",
+      "getters": ["quotes(address)", "startMcapOf(address)", "isAllowed(address)", "quoteList()"],
+      "event": "QuoteSet(address indexed asset, bool allowed, uint8 decimals, uint128 startMcap, address priceSource, bool permissioned)",
+      "note": "startMcap is a FIXED start market cap in the asset's own raw units, not a creator argument. priceSource is a canonical V3 pool pricing the asset in USDC; the zero address means 1 USD.",
+      "quotes": [
+        {
+          "asset": "0x178b01f61CBeA1D2a5581Fe1621Be607835EC349",
+          "symbol": "XAUM",
+          "allowed": true,
+          "decimals": 18,
+          "startMcap": "7854505000000000000",
+          "startMcapHuman": "7.854505 XAUM, about 35000 USD",
+          "priceSource": "0x5E82892d361A6C680027A97da2280064B8FC8A52",
+          "priceSourceNote": "canonical Uniswap V3 XAUM/USDC pool",
+          "permissioned": false
+        }
+      ]
+    },
     "poolKey": {
       "tickSpacing": 200,
-      "hooks": "0x695cfF9C7F11fa87ca05c7b0A0fa64C3554B3eCe",
+      "hooks": "the generation that owns the token: read registeredLaunches(token) on 0x7706d261f0C370e8f0E273164A603E885C89beC2 first, then on 0x695cfF9C7F11fa87ca05c7b0A0fa64C3554B3eCe",
       "currencies": "the launch token and hook.quoteAssetOf(token) (zero address means USDC), sorted by address",
-      "fee": "hook.poolFeeOf(token): 0 for PUMP, 10000 / 20000 / 30000 for CLANKER"
+      "fee": "hook.poolFeeOf(token). Generation 2: 10000 for PUMP, 10000 / 20000 / 30000 for CLANKER, the creator tax for RWA. Generation 1: 0 for PUMP, 10000 / 20000 / 30000 for CLANKER. Always read it; never assume 0."
     },
-    "modes": { "0": "PUMP", "1": "CLANKER", "2": "CLANKER_V3 (never on mainnet)", "3": "RWA (not open)" }
+    "modes": {
+      "0": "PUMP",
+      "1": "CLANKER",
+      "2": "CLANKER_V3 (never on mainnet)",
+      "3": "RWA (live on generation 2 only; generation 1 allows no quote)"
+    }
   },
   "swap": {
     "swapFeeRouter": "0x8090435Df4EeC29178bE5373677aCA8dE54f58bD"
@@ -46,6 +185,7 @@
   },
   "data": {
     "subgraph": "https://api.goldsky.com/api/public/project_cmrntot4nn29m01stbb661x1d/subgraphs/arcade-charts-mainnet/prod/gn",
+    "subgraphNote": "indexes both hook generations; V4Pool.hook tells you which",
     "manifest": "https://www.arcade.trading/deployments.json"
   }
 }
